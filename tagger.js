@@ -32,7 +32,8 @@
         tagger: function(options) {
             options = options || {};
             getDefaultOptions(options);
-            var $input = $(this);
+          
+            var $input = $($(this)[0]);
             var $container = $input.parent();
             var self = this;
             
@@ -179,3 +180,11 @@
     });
 
 }(jQuery))
+
+
+
+var tag = $('.tagger').tagger();
+
+tag.on('tagger:change', function(e, vals){
+	console.log(e.type, vals);
+});
