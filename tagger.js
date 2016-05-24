@@ -110,7 +110,7 @@
             // Remove tag(s) by value
             this.removeValue = function(value){
                 $container.find('.label').each(function(){
-                    if($(this).find('.tagger-content').text() === value) $(this).remove();
+                    if($(this).find('.tagger-content').text() === value)  self.remove($(this));
                 });
             };
 
@@ -130,6 +130,9 @@
 
             // Set input classes
             $input.removeClass().addClass('tagger-input');
+            
+            // Set input type to text
+            $input.attr('type', 'text');
 
             // Update on each key press
             $input.keyup(function(e) {
