@@ -1,19 +1,22 @@
 (function($) {
-
-    var cnames = ['default', 'primary', 'success', 'info', 'warning', 'danger'];
-
+    // All of our color classes
+    var CNAMES = ['default', 'primary', 'success', 'info', 'warning', 'danger'];
+	
+    // Get classes for a label
     function classes(cname) {
-        if (!~cnames.indexOf(cname)) cname = 'default';
+        if (!~CNAMES.indexOf(cname)) cname = 'default';
         return 'tagger-label label label-' + cname;
     }
-
+	
+    // Get width of text in elem
     function textWidth(elem) {
         if (!this.fakeEl) this.fakeEl = $('<span>').hide().appendTo(document.body);
         this.fakeEl.text(elem.val() || elem.text()).css('font', elem.css('font'));
         return this.fakeEl.width();
     };
-
-    function getDefaultOptions(options) {
+    
+    // Set defaults on options object
+    function setDefaultOptions(options) {
         options.terminators = options.terminators || [
             13 // return
         ];
@@ -22,16 +25,18 @@
         options.duplicates = options.duplicates || false;
     }
     
+    // Trigger multiple events
     function triggerMamy(elem, events, args){
     	events.split(' ').forEach(function(event){
         	elem.trigger(event, args);
         });
     }
-
+	
+    // Exten jquery here
     $.fn.extend({
         tagger: function(options) {
             options = options || {};
-            getDefaultOptions(options);
+            setDefaultOptions(options);
           
             var $input = $($(this)[0]);
             var $container = $input.parent();
@@ -157,6 +162,8 @@
             $input.keydown(function(e){
             	// Delete key and no value in text box and remove last label
             	if(e.which === 8 && !$(this).val().trim()) self.removeLast();
+                // Prevent submitting form on enter
+                if(e.which === 13) e.preventDefault();
             });
 
             // Focus input when you click inside its container 
@@ -175,7 +182,7 @@
                 $container.removeClass('tagger-focused');
             });
             
-       		return this;
+       	    return this;
         }
     });
 
@@ -183,7 +190,7 @@
 
 
 
-var tag = $('.tagger').tagger();
+var tag = $('#UserTags').tagger();
 
 tag.on('tagger:change', function(e, vals){
 	console.log(e.type, vals);
