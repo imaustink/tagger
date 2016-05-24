@@ -2,6 +2,15 @@
 My own tags input with blackjack and hookers.
 
 ## Example
+```html
+<form>
+    <div class="form-group">
+        <div class="form-control">
+            <input id="UserTags" value="starting,values">
+        </div>
+    </div>
+</form>
+```
 ```javascript
 // Init tagger
 var tag = $('#UserTags').tagger();
