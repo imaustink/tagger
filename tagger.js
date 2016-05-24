@@ -187,11 +187,3 @@
     });
 
 }(jQuery))
-
-
-
-var tag = $('#UserTags').tagger();
-
-tag.on('tagger:change', function(e, vals){
-	console.log(e.type, vals);
-});
