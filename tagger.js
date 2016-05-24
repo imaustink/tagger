@@ -26,7 +26,7 @@
     }
 
     // Trigger multiple events
-    function triggerMamy(elem, events, args){
+    function triggerMany(elem, events, args){
         events.split(' ').forEach(function(event){
             elem.trigger(event, args);
         });
@@ -46,7 +46,7 @@
             // Tag removal handler
             this.remove = function(tag){
                 tag.remove();
-                triggerMamy($input, 'tagger:change tagger:remove', [self.getValues()]);
+                triggerMany($input, 'tagger:change tagger:remove', [self.getValues()]);
             };
 
             // Value getter
@@ -73,7 +73,7 @@
                             // Remove tag if it's empty
                             if(!text) return self.remove(tag);
                             // Trigger change if the tag has changed
-                            if(value !== text) triggerMamy($input, 'tagger:change tagger:edit', [self.getValues()]);
+                            if(value !== text) triggerMany($input, 'tagger:change tagger:edit', [self.getValues()]);
                         })
                         .keydown(function(e){
                             // Return key
@@ -94,7 +94,7 @@
                 // Move input to the end
                 $container.append($input);
                 // Fire add event
-                triggerMamy($input, 'tagger:change tagger:add', [self.getValues()]);
+                triggerMany($input, 'tagger:change tagger:add', [self.getValues()]);
             };
 
             // Remove last tag
