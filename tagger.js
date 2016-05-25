@@ -160,6 +160,9 @@
                     // Refocus the input
                     $input.focus();
                 }
+                
+                if(($input.previous === 17 || $input.previous === 91) && e.which === 65) $input.select();
+                $input.previous = e.which;
 
             });
 
