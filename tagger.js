@@ -144,13 +144,18 @@
 
                 if(options.lowerCase){
                     value = value.toLowerCase();
-                    $input.val(value.toLowerCase());
+                    $input.val(value);
                 }
                 
-                value = value.trim();
+                if(options.upperCase){
+                    value = value.toUpperCase();
+                    $input.val(value);
+                }
 
                 // Check for terminators
                 if (~options.terminators.indexOf(e.which)) {
+                     // Trim our value of spaces cause we about to save it
+                    value = value.trim();
                     // If they don't have a value yet stop here
                     if(!value) return;
                     // Reset input box
