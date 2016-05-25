@@ -181,8 +181,12 @@
 
             // Focus input when you click inside its container 
             $container.click(function(e) {
+                // Don't trigger if they're clicking the content because it's editable
                 if($(e.target).is('.tagger-content')) return;
+                // Focus our input field
                 $input.focus();
+                // Reset text and subsequently the cursor
+                $input.text($input.text());
             });
 
             // Add hover class
