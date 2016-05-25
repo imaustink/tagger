@@ -78,7 +78,10 @@ Key codes to terminate tag on
 
 ```javascript
 $('#Tagger').tagger({
-    terminators: [13, 32]
+    terminators: [
+        13, // Rteurn key
+        32 // Space
+    ]
 });
 ```
 
@@ -89,12 +92,29 @@ Text transformation function
 |----------------|-----------------|----------------|
 | ```Function``` | ```undefined``` | ```Function``` |
 
+```javascript
+$('#Tagger').tagger({
+    transform: function(value){
+        return value.toLowerCase();
+    }
+});
+```
+
 ### styles
 Overwrite styles
 
 | Type         | Default         | Options     |
 |--------------|-----------------|-------------|
 | ```Object``` | ```undefined``` | ```{...}``` |
+
+```javascript
+$('#Tagger').tagger({
+    styles: {
+        '.tagger-label': {
+            'margin-right': '10px'
+        }
+    }
+});
 
 ## Methods
 ### .tagger().add(value)
