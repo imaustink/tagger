@@ -142,16 +142,16 @@
                 // Get the new value
                 var value = $input.val();
 
+                // Case transformation
                 if(options.lowerCase){
                     value = value.toLowerCase();
                     $input.val(value);
                 }
-                
-                if(options.upperCase){
+                else if(options.upperCase){
                     value = value.toUpperCase();
                     $input.val(value);
                 }
-
+                
                 // Check for terminators
                 if (~options.terminators.indexOf(e.which)) {
                      // Trim our value of spaces cause we about to save it
@@ -186,7 +186,7 @@
                 // Focus our input field
                 $input.focus();
                 // Reset text and subsequently the cursor
-                $input.text($input.text());
+                //$input.text($input.text());
             });
 
             // Add hover class
