@@ -61,7 +61,7 @@
         options.duplicates = options.duplicates || false;
         options.sortable = options.sortable || false;
         // TODO: consider renaming to classes
-        options.handleClass = options.handleClass + ' .tagger-handle' || 'glyphicon glyphicon-menu-hamburger tagger-handle';
+        options.handleClass = options.handleClass + ' tagger-handle' || 'glyphicon glyphicon-menu-hamburger tagger-handle';
         options.removeClass = options.removeClass || 'glyphicon glyphicon-remove';
     }
 
