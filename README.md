@@ -1,5 +1,9 @@
 # tagger
-My own tags input with blackjack and hookers. <a target="_blank" href="https://jsfiddle.net/AustinJKurpuis/gts3cxf5/4/">Demo!</a>
+TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/AustinJKurpuis/gts3cxf5/4/)
+###### Note: this library is designed to be used with [Bootstrap](http://www.getbootstrap.com/) and [jQuery](https://jquery.com/). Bootstrap is optional but jQuery is required.
+
+After fighting with many of the dozens of tags inputs out there and attempting to modify a few of them, I have come to accept they are all garbage. This projects goal is to make a better tags input. Including features like drag and drop orgonization and editing of tags and proper events and methods for interacting with the input once it's initiated.
+
 ## Example
 ```html
 <form>
