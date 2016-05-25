@@ -208,3 +208,23 @@ var $tagger = $('#Tagger').tagger();
 // Remove a tage with the value of 'myTag'
 $tagger.exists('myTag');
 ```
+## Custom styles
+Using the style option you can pass an object containing custom styles.
+```javascript
+$('#Tagger').tagger({
+    styles: {
+        '.tagger-label': {
+            'color': '#F00'
+        }
+    }
+});
+```
+
+| Class Name               | Tag            | Description                           |
+|--------------------------|----------------|---------------------------------------|
+| ```.tagger-label```      | ```<span>```   | Tag container                         |
+| ```.tagger-remove-tag``` | ```<a>```      | Remove tag button                     |
+| ```.tagger-input```      | ```<input>```  | Tagger input field                    |
+| ```.tagger-focused```    | Defined by you | Tags and input container when focused |
+| ```.tagger-blurred```    | Defined by you | Tags and input container when blurred |
+| ```.tagger-handle```     | ```<span>```   | Tag draggable handle                  |
