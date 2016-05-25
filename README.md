@@ -1,5 +1,5 @@
 # tagger
-My own tags input with blackjack and hookers. <a href="https://jsfiddle.net/AustinJKurpuis/gts3cxf5/4/" target="_blank">Demo!</a>
+My own tags input with blackjack and hookers. <a target="_blank" href="https://jsfiddle.net/AustinJKurpuis/gts3cxf5/4/">Demo!</a>
 ## Example
 ```html
 <form>
