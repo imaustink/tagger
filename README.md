@@ -9,7 +9,10 @@ After fighting with many of the dozens of tags inputs out there and attempting t
 <form>
     <div class="form-group">
         <div class="form-control">
-            <input id="Tagger" value="starting,values">
+            <!-- It's best to set the input style to display none
+            to prevent an unstyled box from showing before it's loaded.
+            Tagger will unhide it for you -->
+            <input style="display:none;" id="Tagger" value="starting,values">
         </div>
     </div>
 </form>
