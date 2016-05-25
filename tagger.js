@@ -16,7 +16,8 @@
             'padding': '0',
             'margin': '0',
             'border': 'none',
-            'outline': 'none'
+            'outline': 'none',
+            'display': 'inline-block'
         },
         '.tagger-focused': {
             'border-color': '#66afe9',
