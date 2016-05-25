@@ -123,6 +123,7 @@ $('#Tagger').tagger({
 
 ### handleClass
 Overwrite handle css classes
+###### Note: the required calss of ```.tagger-handle``` will be automatically added.
 
 | Type         | Default         | Options     |
 |--------------|-----------------|-------------|
