@@ -115,6 +115,7 @@ $('#Tagger').tagger({
         }
     }
 });
+```
 
 ## Methods
 ### .tagger().add(value)
@@ -178,6 +179,7 @@ var $tagger = $('#Tagger').tagger();
 // Remove the second tag
 $tagger.removeIndex(1);
 ```
+
 ### .tagger().removeValue(value)
 Removes specific tag(s) by their value.
 ###### Note: all matching tags will be removed
