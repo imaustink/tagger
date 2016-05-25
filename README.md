@@ -29,8 +29,75 @@ tag.on('tagger:change', function(e, vals){
 | ```tagger:edit```   | Fires when a tag is edited    |
 | ```tagger:sort```   | Fires when any tag is sorted  |
 
+## Options
+### color
+Color class name of tags
+
+| Type   | Default    | Options                                                                              |
+|--------|------------|--------------------------------------------------------------------------------------|
+| ```String``` | ```info``` | ```default```, ```primary```, ```success```, ```info```, ```warning```, ```danger``` |
+
+```javascript
+$('#Tagger').tagger({
+    color: 'success'
+});
+```
+
+### duplicates
+Allow duplicate tags
+
+| Type          | Default     | Options                 |
+|---------------|-------------|-------------------------|
+| ```Boolean``` | ```false``` | ```true```, ```false``` |
+
+```javascript
+$('#Tagger').tagger({
+    duplicates: true
+});
+```
+
+### sortable
+Make tags sortable by drag and drop
+
+| Type          | Default     | Options                 |
+|---------------|-------------|-------------------------|
+| ```Boolean``` | ```false``` | ```true```, ```false``` |
+
+```javascript
+$('#Tagger').tagger({
+    sortable: true
+});
+```
+
+### terminators
+Key codes to terminate tag on
+
+| Type        | Default    | Options     |
+|-------------|------------|-------------|
+| ```Array``` | ```[13]``` | ```[...]``` |
+
+```javascript
+$('#Tagger').tagger({
+    terminators: [13, 32]
+});
+```
+
+### transform
+Text transformation function
+
+| Type           | Default         | Options        |
+|----------------|-----------------|----------------|
+| ```Function``` | ```undefined``` | ```Function``` |
+
+### styles
+Overwrite styles
+
+| Type         | Default         | Options     |
+|--------------|-----------------|-------------|
+| ```Object``` | ```undefined``` | ```{...}``` |
+
 ## Methods
-###.tagger().add(value)
+### .tagger().add(value)
 Adds a tag or many tags to an instance of .tagger()
 
 | Arguments | Type                  | Required |
@@ -45,12 +112,12 @@ $tagger.add('tag');
 // Also accepts array of strings for multiple tags
 $tagger.add(['firstTag', 'secondTag']);
 ```
-###.tagger().remove(tag)
+### .tagger().remove(tag)
 Removes selected tag(s) from an instance of .tagger()
 
 | Arguments | Type   | Required |
 |-----------|--------|----------|
-| tag       | Object | yes      |
+| tag       | ```Object``` | yes|
 
 ```javascript
 // Setup
@@ -60,12 +127,62 @@ var tags = $('#Tagger').parent().find('.label');
 // Remove selected tags
 $tagger.remove(tags);
 ```
-###.tagger().getValues()
-Returns an array of strings representing the tags in a given instance of .tagger()
+### .tagger().getValues()
+Returns an array of strings representing the tags in an instance of .tagger()
 ```javascript
 // Setup
 var $tagger = $('#Tagger').tagger();
 // Remove selected tags
 $tagger.getValues();
 ```
+### .tagger().removeLast()
+Removes last tag in list from an instance of .tagger()
 
+```javascript
+// Setup
+var $tagger = $('#Tagger').tagger();
+// Remove selected tags
+$tagger.removeLast();
+```
+### .tagger().removeIndex(index)
+Removes a specific tag by it's index in the list.
+###### Note: starting index is 0
+
+| Arguments | Type   | Required |
+|-----------|--------|----------|
+| index     | ```Number``` | yes|
+
+```javascript
+// Setup
+var $tagger = $('#Tagger').tagger();
+// Remove the second tag
+$tagger.removeIndex(1);
+```
+### .tagger().removeValue(value)
+Removes specific tag(s) by their value.
+###### Note: all matching tags will be removed
+
+| Arguments | Type   | Required |
+|-----------|--------|----------|
+| index     | ```String``` | yes|
+
+```javascript
+// Setup
+var $tagger = $('#Tagger').tagger();
+// Remove a tage with the value of 'myTag'
+$tagger.removeValue('myTag');
+```
+### .tagger().exists(value)
+Returns true if the tag already exits
+###### Note: always returns false if duplicates are enabled
+
+| Arguments | Type   | Required |
+|-----------|--------|----------|
+| index     | ```String``` | yes|
+
+```javascript
+// Setup
+var $tagger = $('#Tagger').tagger();
+// Remove a tage with the value of 'myTag'
+$tagger.exists('myTag');
+```
