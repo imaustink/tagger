@@ -140,12 +140,14 @@
                 $input.css('width', (textWidth($input) + 15) + 'px');
 
                 // Get the new value
-                var value = $input.val().trim();
+                var value = $input.val();
 
                 if(options.lowerCase){
                     value = value.toLowerCase();
                     $input.val(value.toLowerCase());
                 }
+                
+                value = value.trim();
 
                 // Check for terminators
                 if (~options.terminators.indexOf(e.which)) {
