@@ -121,6 +121,32 @@ $('#Tagger').tagger({
 });
 ```
 
+### handleClass
+Overwrite handle css classes
+
+| Type         | Default         | Options     |
+|--------------|-----------------|-------------|
+| ```String``` | ```'glyphicon glyphicon-menu-hamburger tagger-handle'``` | ```'...'``` |
+
+```javascript
+$('#Tagger').tagger({
+    handleClass: 'glyphicon glyphicon-th-large tagger-handle'
+});
+```
+
+### removeClass
+Overwrite remove button css classes
+
+| Type         | Default         | Options     |
+|--------------|-----------------|-------------|
+| ```String``` | ```'glyphicon glyphicon-remove'``` | ```'...'``` |
+
+```javascript
+$('#Tagger').tagger({
+    removeClass: 'glyphicon glyphicon-remove-sign'
+});
+```
+
 ## Methods
 ### .tagger().add(value)
 Adds a tag or many tags to an instance of .tagger()
