@@ -28,6 +28,8 @@ tag.on('tagger:change', function(e, vals){
 ```
 
 ## Events
+Each instance of tagger() has several events you can listen for using the .on() function like the example above.
+
 | Name                | Description                   |
 |---------------------|-------------------------------|
 | ```tagger:change``` | Fires for any and all changes |
@@ -38,7 +40,7 @@ tag.on('tagger:change', function(e, vals){
 
 ## Options
 ### color
-Color class name of tags
+Color class name of tags.
 
 | Type   | Default    | Options                                                                              |
 |--------|------------|--------------------------------------------------------------------------------------|
@@ -51,7 +53,7 @@ $('#Tagger').tagger({
 ```
 
 ### duplicates
-Allow duplicate tags
+Allow duplicate tags.
 
 | Type          | Default     | Options                 |
 |---------------|-------------|-------------------------|
@@ -64,7 +66,7 @@ $('#Tagger').tagger({
 ```
 
 ### sortable
-Make tags sortable by drag and drop
+Make tags sortable by drag and drop.
 
 | Type          | Default     | Options                 |
 |---------------|-------------|-------------------------|
@@ -77,7 +79,7 @@ $('#Tagger').tagger({
 ```
 
 ### terminators
-Key codes to terminate tag on
+Key codes to terminate tag on.
 
 | Type        | Default    | Options     |
 |-------------|------------|-------------|
@@ -93,7 +95,7 @@ $('#Tagger').tagger({
 ```
 
 ### transform
-Text transformation function
+Text transformation function.
 
 | Type           | Default         | Options        |
 |----------------|-----------------|----------------|
@@ -108,11 +110,13 @@ $('#Tagger').tagger({
 ```
 
 ### styles
-Overwrite styles
+Overwrite styles.
 
 | Type         | Default         | Options     |
 |--------------|-----------------|-------------|
 | ```Object``` | ```undefined``` | ```{...}``` |
+
+For class documentation see [Custom styles](https://github.com/imaustink/tagger/blob/master/README.md#custom-styles).
 
 ```javascript
 $('#Tagger').tagger({
@@ -125,7 +129,7 @@ $('#Tagger').tagger({
 ```
 
 ### handleClass
-Overwrite handle css classes
+Overwrite handle css classes.
 ###### Note: the required calss of ```.tagger-handle``` will be automatically added.
 
 | Type         | Default         | Options     |
@@ -139,7 +143,7 @@ $('#Tagger').tagger({
 ```
 
 ### removeClass
-Overwrite remove button css classes
+Overwrite remove button css classes.
 
 | Type         | Default         | Options     |
 |--------------|-----------------|-------------|
@@ -153,7 +157,7 @@ $('#Tagger').tagger({
 
 ## Methods
 ### .tagger().add(value)
-Adds a tag or many tags to an instance of .tagger()
+Adds a tag or many tags to an instance of .tagger().
 
 | Arguments | Type                  | Required |
 |-----------|-----------------------|----------|
@@ -168,7 +172,7 @@ $tagger.add('tag');
 $tagger.add(['firstTag', 'secondTag']);
 ```
 ### .tagger().remove(tag)
-Removes selected tag(s) from an instance of .tagger()
+Removes selected tag(s) from an instance of .tagger().
 
 | Arguments | Type   | Required |
 |-----------|--------|----------|
@@ -183,7 +187,7 @@ var tags = $('#Tagger').parent().find('.label');
 $tagger.remove(tags);
 ```
 ### .tagger().getValues()
-Returns an array of strings representing the tags in an instance of .tagger()
+Returns an array of strings representing the tags in an instance of .tagger().
 ```javascript
 // Setup
 var $tagger = $('#Tagger').tagger();
@@ -191,7 +195,7 @@ var $tagger = $('#Tagger').tagger();
 $tagger.getValues();
 ```
 ### .tagger().removeLast()
-Removes last tag in list from an instance of .tagger()
+Removes last tag in list from an instance of .tagger().
 
 ```javascript
 // Setup
@@ -216,7 +220,7 @@ $tagger.removeIndex(1);
 
 ### .tagger().removeValue(value)
 Removes specific tag(s) by their value.
-###### Note: all matching tags will be removed
+###### Note: all matching tags will be removed.
 
 | Arguments | Type   | Required |
 |-----------|--------|----------|
@@ -229,8 +233,8 @@ var $tagger = $('#Tagger').tagger();
 $tagger.removeValue('myTag');
 ```
 ### .tagger().exists(value)
-Returns true if the tag already exits
-###### Note: always returns false if duplicates are enabled
+Returns true if the tag already exits.
+###### Note: always returns false if duplicates are enabled.
 
 | Arguments | Type   | Required |
 |-----------|--------|----------|
