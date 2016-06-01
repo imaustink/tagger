@@ -177,7 +177,7 @@
             
             // TODO: rename to 'duplicate'
             this.exists = function(value){
-                return options.duplicates === false && ~self.getValues().indexOf(value);
+                return options.duplicates === false && !!~self.getValues().indexOf(value);
             };
 
             // Check for input

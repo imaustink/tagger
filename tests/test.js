@@ -23,8 +23,24 @@
         });
 
         it('should add multiple tags', function(){
-            tagger.add(['bar', 'baz']);
-            expect(tagger.getValues()).to.eql(['foo', 'bar', 'baz']);
+            tagger.add(['bar', 'baz', 'qux']);
+            expect(tagger.getValues()).to.eql(['foo', 'bar', 'baz', 'qux']);
+        });
+        
+        it('should remove baz by index', function(){
+            tagger.removeIndex(2);
+            expect(tagger.getValues()).to.not.include('baz');
+        });
+        
+        it('should remove the last tag', function(){
+            tagger.removeLast();
+            expect(tagger.exists('baz')).to.be.false;
+        });
+        
+        it('should remove all tags', function(){
+            var tags = tagger.siblings('.label');
+            tagger.remove(tags);
+            expect(tagger.getValues()).to.have.lengthOf(0);
         });
         
     });
