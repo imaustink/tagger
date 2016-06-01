@@ -1,4 +1,6 @@
 # Tagger
+[![Build Status](https://travis-ci.org/imaustink/tagger.svg?branch=karma)](https://travis-ci.org/imaustink/tagger)
+
 TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/AustinJKurpuis/gts3cxf5/7/)
 ###### Note: this library is designed to be used with [Bootstrap](http://www.getbootstrap.com/) and [jQuery](https://jquery.com/). Bootstrap is optional but jQuery is required.
 
