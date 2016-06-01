@@ -30,7 +30,7 @@ tag.on('tagger:change', function(e, vals){
 ```
 
 ## Events
-Each instance of tagger() has several events you can listen for using the .on() function like the example above.
+Each instance of tagger() has several events you can listen for using the .on() jQuery method like in the example above.
 
 | Name                | Description                   |
 |---------------------|-------------------------------|
@@ -265,6 +265,6 @@ $('#Tagger').tagger({
 | ```.tagger-label```      | ```<span>```   | Tag container                         |
 | ```.tagger-remove-tag``` | ```<a>```      | Remove tag button                     |
 | ```.tagger-input```      | ```<input>```  | Tagger input field                    |
-| ```.tagger-focused```    | Defined by you | Tags and input container when focused |
-| ```.tagger-blurred```    | Defined by you | Tags and input container when blurred |
+| ```.tagger-focused```    | Defined by you | Tags input container when focused |
+| ```.tagger-blurred```    | Defined by you | Tags input container when blurred |
 | ```.tagger-handle```     | ```<span>```   | Tag draggable handle                  |
