@@ -34,6 +34,22 @@
             'cursor': 'move',
             'cursor': '-webkit-grabbing',
             'margin-right': '3px'
+        },
+        '.tagger-suggestions': {
+            'top': '20px',
+            'background-color': '#FFF',
+            'padding': '5px',
+            'margin': '0 3px',
+            'border': '1px solid #cccccc',
+            'display': 'none'
+        },
+        '.tagger-suggestion': {
+            'margin-right': '5px',
+            'cursor': 'pointer'
+        },
+        '.tagger-placeholder': {
+            'color': '#cacaca',
+            'display': 'none'
         }
     };
     
@@ -65,6 +81,8 @@
         // TODO: consider renaming to classes
         options.handleClass = (options.handleClass ? options.handleClass + ' tagger-handle' : 'glyphicon glyphicon-menu-hamburger tagger-handle');
         options.removeClass = options.removeClass || 'glyphicon glyphicon-remove';
+        options.showAllSuggestions = options.showAllSuggestions || false;
+        options.suggestionsOnly = options.suggestionsOnly || false;
     }
 
     // Trigger multiple events
@@ -99,6 +117,7 @@
             this.remove = function(tag){
                 tag.remove();
                 triggerMany($input, 'tagger:change tagger:remove', [self.getValues()]);
+                self.showSuggestions($input.val());
             };
 
             // Value getter
@@ -120,6 +139,9 @@
                 }
                 // Prevent duplicates
                 if(self.exists(value)) return;
+            
+                if(options.suggestionsOnly && !self.inSuggestions(value)) return;
+
                 // Create tag
                 var tag = $('<span>', {class: classes(options.color)}).css(styles_obj['.tagger-label']).append(
                     $('<span>', {class: 'tagger-content', 'contenteditable': true}).text(value).blur(function(){
@@ -153,6 +175,8 @@
                 $container.append(tag);
                 // Move input to the end
                 $container.append($input);
+                
+                if($suggestions) $suggestions.hide();
                 // Fire add event
                 triggerMany($input, 'tagger:change tagger:add', [self.getValues()]);
             };
@@ -177,8 +201,55 @@
             
             // TODO: rename to 'duplicate'
             this.exists = function(value){
-                return options.duplicates === false && !!~self.getValues().indexOf(value);
+                return options.duplicates === false && ~self.getValues().indexOf(value);
             };
+            
+            
+            this.autocomplete = function(value, values){
+                var output = [];
+                if(!value && options.showAllSuggestions === false) return output;
+                values.forEach(function(val){
+                    if(~val.indexOf(value) && !~self.getValues().indexOf(val)) output.push(val);
+                });
+                return output;
+            };
+            
+            this.printSuggestions = function(values){
+                if(!$suggestions) return;
+                if(!values.length) return $suggestions.hide();
+                $suggestions.empty().show();
+                values.forEach(function(value){
+                    $suggestions.append(
+                        $('<li>', {class: classes(options.color)})
+                        .css(styles_obj['.tagger-suggestion'])
+                        .text(value).mousedown(function(e){
+                            e.preventDefault();
+                            self.add(value);
+                            //$suggestions.hide();
+                            $input.val('').focus();
+                        })
+                    ); 
+                });
+            };
+            
+            // TODO: this looks bad and isn't very performant. Rework this.
+            this.showSuggestions = function(value){
+                if(typeof options.autocomplete === 'function'){
+                    options.autocomplete(function(results){
+                        self.suggestions = self.autocomplete(value, results);
+                        self.printSuggestions(self.suggestions);
+                    });
+                }else if(Array.isArray(options.autocomplete)){
+                    self.suggestions = self.autocomplete(value, options.autocomplete);
+                    self.printSuggestions(self.suggestions);
+                }
+            }
+            
+            this.inSuggestions = function(value){
+                // Ignore if we don't have suggestions yet
+                if(!self.suggestions) return true;
+                return ~self.suggestions.indexOf(value);
+            }
 
             // Check for input
             if($input.prop('tagName') !== 'INPUT'){
@@ -192,6 +263,20 @@
             if(starting){
                 $input.val('');
                 self.add(starting.split(','));
+            }
+            
+            var placeholder = $input.attr('placeholder') || options.placeholder;
+            
+            if(placeholder){
+                $input.attr('placeholder', '');
+                placeholder = $('<span>', {class: 'tagger-placeholder'}).css(styles_obj['.tagger-placeholder']).text(placeholder);
+                $container.prepend(placeholder);
+                if(!self.getValues().length) placeholder.show();
+            }
+
+            if(options.autocomplete){
+                var $suggestions = $('<ul>', {class: 'tagger-suggestions'}).css(styles_obj['.tagger-suggestions']);
+                $container.after($suggestions);
             }
 
             // Init text area size
@@ -221,10 +306,13 @@
                     $input.val(value);
                 }
 
+                // Trim our value of spaces
+                value = value.trim();
+                
+                self.showSuggestions(value);
+
                 // Check for terminators
-                if (~options.terminators.indexOf(e.which)) {
-                    // Trim our value of spaces cause we about to save it
-                    value = value.trim();
+                if(~options.terminators.indexOf(e.which)){
                     // If they don't have a value yet stop here
                     if(!value) return;
                     // Reset input box
@@ -249,9 +337,11 @@
             });
 
             // Focus input when you click inside its container 
-            $container.click(function(e) {
+            $container.mousedown(function(e) {
                 // Don't trigger if they're clicking the content because it's editable
                 if($(e.target).is('.tagger-content')) return;
+                
+                e.preventDefault();
                 // Focus our input field
                 $input.focus();
                 // Reset text and subsequently the cursor
@@ -261,11 +351,16 @@
             // Add hover class
             $input.focus(function(){
                 $container.css(styles_obj['.tagger-focused']);
+                $input.keyup();
+                if(placeholder) placeholder.hide();
             });
 
             // Remove hover class
-            $input.blur(function(){
+            $input.blur(function(e){
                 $container.css(styles_obj['.tagger-blurred']);
+                if($suggestions) $suggestions.hide();
+                if(placeholder && !self.getValues().length) placeholder.show();
+                else placeholder.hide();
             });
             
             // Setup sortable plugin
