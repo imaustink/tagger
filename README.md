@@ -231,7 +231,7 @@ Removes specific tag(s) by their value.
 ```javascript
 // Setup
 var $tagger = $('#Tagger').tagger();
-// Remove a tage with the value of 'myTag'
+// Remove a tag with the value of 'myTag'
 $tagger.removeValue('myTag');
 ```
 ### .tagger().exists(value)
@@ -245,7 +245,7 @@ Returns true if the tag already exits.
 ```javascript
 // Setup
 var $tagger = $('#Tagger').tagger();
-// Remove a tage with the value of 'myTag'
+// Remove a tag with the value of 'myTag'
 $tagger.exists('myTag');
 ```
 ## Custom styles
