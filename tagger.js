@@ -359,8 +359,10 @@
             $input.blur(function(e){
                 $container.css(styles_obj['.tagger-blurred']);
                 if($suggestions) $suggestions.hide();
-                if(placeholder && !self.getValues().length) placeholder.show();
-                else placeholder.hide();
+                if(placeholder){
+                    if(!self.getValues().length) placeholder.show();
+                    else placeholder.hide();
+                }
             });
             
             // Setup sortable plugin
