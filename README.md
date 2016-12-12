@@ -173,6 +173,21 @@ $tagger.add('tag');
 // Also accepts array of strings for multiple tags
 $tagger.add(['firstTag', 'secondTag']);
 ```
+### .tagger().update(tag, value)
+Updates an existing tag in an instance of .tagger().
+
+| Arguments | Type                  | Required |
+|-----------|-----------------------|----------|
+| value     | ```String || Array``` | yes      |
+
+```javascript
+// Setup
+var $tagger = $('#Tagger').tagger();
+// Select last tag
+var tag = $('#Tagger').parent().find('.label').last();
+// Update single tags
+$tagger.update(tag, 'myTag');
+```
 ### .tagger().remove(tag)
 Removes selected tag(s) from an instance of .tagger().
 
@@ -195,6 +210,14 @@ Returns an array of strings representing the tags in an instance of .tagger().
 var $tagger = $('#Tagger').tagger();
 // Remove selected tags
 $tagger.getValues();
+```
+### .tagger().getTags()
+Returns an array the tag elements in an instance of .tagger().
+```javascript
+// Setup
+var $tagger = $('#Tagger').tagger();
+// Remove selected tags
+$tagger.getTags();
 ```
 ### .tagger().removeLast()
 Removes last tag in list from an instance of .tagger().
@@ -234,8 +257,8 @@ var $tagger = $('#Tagger').tagger();
 // Remove a tag with the value of 'myTag'
 $tagger.removeValue('myTag');
 ```
-### .tagger().exists(value)
-Returns true if the tag already exits.
+### .tagger().duplicate(value)
+Returns true if the tag is a duplicate.
 ###### Note: always returns false if duplicates are enabled.
 
 | Arguments | Type   | Required |
@@ -246,7 +269,7 @@ Returns true if the tag already exits.
 // Setup
 var $tagger = $('#Tagger').tagger();
 // Remove a tag with the value of 'myTag'
-$tagger.exists('myTag');
+$tagger.duplicate('myTag');
 ```
 ## Custom styles
 Using the style option you can pass an object containing custom styles.
