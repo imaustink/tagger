@@ -16,7 +16,7 @@ module.exports = function(config) {
       'node_modules/chai/chai.js',
       'libs/*.js',
       'tagger.js', 
-      'tests/*'
+      'test/*'
     ],
 
 

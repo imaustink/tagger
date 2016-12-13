@@ -4,7 +4,7 @@
 TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/AustinJKurpuis/gts3cxf5/7/)
 ###### Note: this library is designed to be used with [Bootstrap](http://www.getbootstrap.com/) and [jQuery](https://jquery.com/). Bootstrap is optional but jQuery is required.
 
-After fighting with many of the dozens of tags inputs out there and attempting to modify a few of them, I have come to accept they are all garbage. This projects goal is to make a better tags input. Including features like drag and drop orgonization and editing of tags and proper events and methods for interacting with the input once it's initiated.
+After fighting with many of the dozens of tags inputs out there and attempting to modify a few of them, I have come to accept they are all garbage. This projects goal is to make a better tags input. Including features like drag and drop organization and editing of tags and proper events and methods for interacting with the input once it's initiated.
 
 ## Example
 ```html
@@ -90,7 +90,7 @@ Key codes to terminate tag on.
 ```javascript
 $('#Tagger').tagger({
     terminators: [
-        13, // Rteurn key
+        13, // Return key
         32 // Space
     ]
 });
@@ -132,7 +132,7 @@ $('#Tagger').tagger({
 
 ### handleClass
 Overwrite handle css classes.
-###### Note: the required calss of ```.tagger-handle``` will be automatically added.
+###### Note: the required class of ```.tagger-handle``` will be automatically added.
 
 | Type         | Default         | Options     |
 |--------------|-----------------|-------------|
@@ -173,7 +173,7 @@ $tagger.add('tag');
 // Also accepts array of strings for multiple tags
 $tagger.add(['firstTag', 'secondTag']);
 ```
-### .tagger().update(tag, value)
+### .tagger().updateTag(tag, value)
 Updates an existing tag in an instance of .tagger().
 
 | Arguments | Type                  | Required |
@@ -186,7 +186,7 @@ var $tagger = $('#Tagger').tagger();
 // Select last tag
 var tag = $('#Tagger').parent().find('.label').last();
 // Update single tags
-$tagger.update(tag, 'myTag');
+$tagger.updateTag(tag, 'myTag');
 ```
 ### .tagger().remove(tag)
 Removes selected tag(s) from an instance of .tagger().
@@ -288,6 +288,6 @@ $('#Tagger').tagger({
 | ```.tagger-label```      | ```<span>```   | Tag container                         |
 | ```.tagger-remove-tag``` | ```<a>```      | Remove tag button                     |
 | ```.tagger-input```      | ```<input>```  | Tagger input field                    |
-| ```.tagger-focused```    | Defined by you | Tags input container when focused |
-| ```.tagger-blurred```    | Defined by you | Tags input container when blurred |
+| ```.tagger-focused```    | Defined by you | Tags input container when focused     |
+| ```.tagger-blurred```    | Defined by you | Tags input container when blurred     |
 | ```.tagger-handle```     | ```<span>```   | Tag draggable handle                  |

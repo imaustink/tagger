@@ -11,6 +11,7 @@
         return 'label label-' + (~CNAMES.indexOf(cname) ? cname : 'default');
     }
 
+    // TODO: this is ugly and should be refactored
     // Set width based on text width in elem
     function resize(elem) {
         this.fakeEl = this.fakeEl || $('<span>').hide().appendTo(document.body);
@@ -18,6 +19,7 @@
         elem.css('width', (this.fakeEl.width() + 15) + 'px');
     }
 
+    // TODO: change this to extend a static object instead
     // Set defaults on options object
     function setDefaultOptions(options) {
         options.terminators = options.terminators || [
@@ -40,24 +42,24 @@
         });
     }
 
-    function Tagger(options, $input) {
+    function Tagger($input, options) {
         var self = this;
 
         // Get defaults
         options = options || {};
         setDefaultOptions(options);
-        this.options = options
         
         // Setup custom styles
         if(typeof options.styles === 'object' && Array.isArray(options.styles)){
             for(var styles in options.styles){
                 if(options.styles.hasOwnProperty(styles)){
-                    this.styles_obj[styles] = options.styles[styles];
+                    this.styles[styles] = options.styles[styles];
                 }
             }
         }
         
-        this.$input = $input;
+        this.options = options
+        this.$ = this.$input = $input;
         this.$container = $input.parent();
 
         // Check for input
@@ -78,13 +80,13 @@
         
         if(placeholder){
             $input.attr('placeholder', '');
-            placeholder = $('<span>', {class: 'tagger-placeholder'}).css(this.styles_obj['.tagger-placeholder']).text(placeholder);
+            placeholder = $('<span>', {class: 'tagger-placeholder'}).css(this.styles['.tagger-placeholder']).text(placeholder);
             this.$container.prepend(placeholder);
             if(!self.getValues().length) placeholder.show();
         }
 
         if(options.autocomplete){
-            this.$suggestions = $('<ul>', {class: 'tagger-suggestions'}).css(this.styles_obj['.tagger-suggestions']);
+            this.$suggestions = $('<ul>', {class: 'tagger-suggestions'}).css(this.styles['.tagger-suggestions']);
             this.$container.after(this.$suggestions);
         }
 
@@ -92,7 +94,7 @@
         resize($input);
 
         // Set input classes
-        $input.css(this.styles_obj['.tagger-input']);
+        $input.css(this.styles['.tagger-input']);
 
         // Set input type to text
         $input.attr('type', 'text');
@@ -160,14 +162,14 @@
 
         // Add hover class
         $input.focus(function inputFocus(){
-            self.$container.css(self.styles_obj['.tagger-focused']);
+            self.$container.css(self.styles['.tagger-focused']);
             self.$input.keyup();
             if(placeholder) placeholder.hide();
         });
 
         // Remove hover class
         $input.blur(function inputBlur(e){
-            self.$container.css(self.styles_obj['.tagger-blurred']);
+            self.$container.css(self.styles['.tagger-blurred']);
             if(self.$suggestions) self.$suggestions.hide();
             if(placeholder){
                 if(!self.getValues().length) placeholder.show();
@@ -195,7 +197,7 @@
             });
         }
 
-        return $input;
+        return this;
     }
 
     // TODO: accept array on all remove methods
@@ -236,12 +238,12 @@
         if(this.options.suggestionsOnly && !self.inSuggestions(value)) return;
 
         // Create tag
-        var tag = $('<span>', {class: classes(this.options.color)}).css(this.styles_obj['.tagger-label']).data('value', value).append(
+        var tag = $('<span>', {class: classes(this.options.color)}).css(this.styles['.tagger-label']).data('value', value).append(
             $('<span>', {class: 'tagger-content', 'contenteditable': true}).text(value).blur(function(){
                 // Update tag
                 var text = $(this).text();
                 $(this).text(value);
-                self.update(tag, text);
+                self.updateTag(tag, text);
             }).keydown(function tagKeydown(e){
                 // Return key
                 if(e.which === 13){
@@ -252,13 +254,13 @@
                 }
             }),
             '&nbsp;',
-            $('<a>', {class: this.options.removeClass}).css(this.styles_obj['.tagger-remove-tag']).click(function tagClick(){
+            $('<a>', {class: this.options.removeClass}).css(this.styles['.tagger-remove-tag']).click(function tagClick(){
                 self.remove(tag);
             })
         );
         // Add drag handle
         if(this.options.sortable) tag.prepend(
-            $('<span>', {class: this.options.handleClass}).css(this.styles_obj['.tagger-handle'])
+            $('<span>', {class: this.options.handleClass}).css(this.styles['.tagger-handle'])
         );
         // Add tag
         this.$container.append(tag);
@@ -271,7 +273,7 @@
     };
     
     // Update tag value
-    Tagger.prototype.update = function update(tag, value){
+    Tagger.prototype.updateTag = function updateTag(tag, value){
         if(value === tag.data('value')) return;
         if(!this.options.duplicates && this.duplicate(value)) return this.remove(tag);
         tag.find('.tagger-content').text(value);
@@ -322,7 +324,7 @@
         values.forEach(function(value){
             self.$suggestions.append(
                 $('<li>', {class: classes(this.options.color)})
-                .css(self.styles_obj['.tagger-suggestion'])
+                .css(self.styles['.tagger-suggestion'])
                 .text(value).mousedown(function(e){
                     e.preventDefault();
                     self.add(value);
@@ -353,7 +355,7 @@
         return ~this.suggestions.indexOf(value);
     }
     
-    Tagger.prototype.styles_obj = {
+    Tagger.prototype.styles = {
         '.tagger-label': {
             'margin-right': '5px'
         },
@@ -403,9 +405,12 @@
         }
     };
 
-    // Exten jquery here
+    // Extend jquery here
     $.fn.extend({tagger: function(options){
-        return new Tagger(options, this);
+        // Get the first item only
+        var $input = $(this[0]);
+        var t = $input.data('Tagger') || new Tagger($input, options);
+        return $.extend($input, t);
     }});
 
 }(jQuery));
