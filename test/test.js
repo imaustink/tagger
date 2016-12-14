@@ -18,7 +18,7 @@
         });
         
         it('should add a tags', function(){
-            tagger.add('foo');
+            tagger.addTag('foo');
             expect(tagger.getValues()).to.contain('foo');
         });
 

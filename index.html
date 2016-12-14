@@ -20,15 +20,18 @@
         </div>
     </form>
     <script>
+        var $body = $('body');
+        var tagger;
+
         // Init tagger
-        var tag = $('#Tagger').tagger({sortable: true});
+        tagger = $body.find('#Tagger').tagger({sortable: true});
+
+        tagger.tagger('add', ['test']);
 
         // Listen for changes
-        tag.on('tagger:change', function(e, vals){
+        tagger.on('tagger:change', function(e, vals){
             console.log(e, vals);
         });
-
-        tag.getValues();
     </script>
 </body>
 

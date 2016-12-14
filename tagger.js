@@ -239,11 +239,11 @@
 
         // Create tag
         var tag = $('<span>', {class: classes(this.options.color)}).css(this.styles['.tagger-label']).data('value', value).append(
-            $('<span>', {class: 'tagger-content', 'contenteditable': true}).text(value).blur(function(){
+            $('<span>', {class: 'tagger-content', contenteditable: true}).text(value).blur(function(){
                 // Update tag
                 var text = $(this).text();
                 $(this).text(value);
-                self.updateTag(tag, text);
+                self.update(tag, text);
             }).keydown(function tagKeydown(e){
                 // Return key
                 if(e.which === 13){
@@ -273,7 +273,7 @@
     };
     
     // Update tag value
-    Tagger.prototype.updateTag = function updateTag(tag, value){
+    Tagger.prototype.update = function update(tag, value){
         if(value === tag.data('value')) return;
         if(!this.options.duplicates && this.duplicate(value)) return this.remove(tag);
         tag.find('.tagger-content').text(value);
@@ -406,11 +406,18 @@
     };
 
     // Extend jquery here
-    $.fn.extend({tagger: function(options){
-        // Get the first item only
+    $.fn.extend({tagger: function(){
         var $input = $(this[0]);
-        var t = $input.data('Tagger') || new Tagger($input, options);
-        return $.extend($input, t);
+        var tagger = $input.data('Tagger');
+        var args = Array.prototype.slice.call(arguments);
+        if(!tagger){
+            tagger = new Tagger($input, args[0]);
+            $input.data('Tagger', tagger);
+        }else{
+            args.splice(0, 1);
+            tagger[arguments[0]].call(tagger, args);
+        }
+        return $input;
     }});
 
 }(jQuery));
