@@ -68,11 +68,11 @@ $('#Tagger').tagger({
 ```
 
 ### sortable
-Make tags sortable by drag and drop.
+Make tags sortable by drag and drop by proviging an a [Sortable](https://github.com/RubaXa/Sortable) constructor.
 
 | Type          | Default     | Options                 |
 |---------------|-------------|-------------------------|
-| ```Boolean``` | ```false``` | ```true```, ```false``` |
+| ```Function``` | ```undefined``` | ```Sortable``` |
 
 ```javascript
 $('#Tagger').tagger({
@@ -85,7 +85,7 @@ Key codes to terminate tag on.
 
 | Type        | Default    | Options     |
 |-------------|------------|-------------|
-| ```Array``` | ```[13]``` | ```[...]``` |
+| ```Array``` of ```String```(s) | ```[13]``` | ```[...]``` |
 
 ```javascript
 $('#Tagger').tagger({
@@ -178,7 +178,7 @@ Updates an existing tag in an instance of .tagger().
 
 | Arguments | Type                  | Required |
 |-----------|-----------------------|----------|
-| value     | ```String || Array``` | yes      |
+| value     | ```String```, ```Array``` | yes      |
 
 ```javascript
 // Setup
