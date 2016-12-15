@@ -35,13 +35,6 @@
         options.suggestionsOnly = options.suggestionsOnly || false;
     }
 
-    // Trigger multiple events
-    function triggerMany(elem, events, args){
-        events.split(' ').forEach(function(event){
-            elem.trigger(event, args);
-        });
-    }
-
     function Tagger($input, options) {
         var self = this;
 
@@ -57,10 +50,6 @@
                 }
             }
         }
-        
-        this.options = options
-        this.$ = this.$input = $input;
-        this.$container = $input.parent();
 
         // Check for input
         if($input.prop('tagName') !== 'INPUT'){
@@ -69,9 +58,14 @@
             $input.replaceWith(input);
             $input = input;
         }
+        
+        this.options = options
+        this.$ = this.$input = $input;
+        this.$container = $input.parent();
 
         var starting = $input.val();
         if(starting){
+            $input.removeAttr('value');
             $input.val('');
             self.add(starting.split(','));
         }
@@ -192,7 +186,7 @@
                     // Show it again
                     self.$input.show();
                     // Trigger our event
-                    triggerMany(self.$input, 'tagger:change tagger:sort', [self.getValues()]);
+                    self.triggerChange(self.$input, 'tagger:change tagger:sort', self.getValues());
                 }
             });
         }
@@ -204,7 +198,7 @@
     // Tag removal handler
     Tagger.prototype.remove = function remove(tag){
         tag.remove();
-        triggerMany(this.$input, 'tagger:change tagger:remove', [this.getValues()]);
+        this.triggerChange(this.$input, 'tagger:change tagger:remove', this.getValues());
         this.showSuggestions(this.$input.val());
     };
 
@@ -269,7 +263,7 @@
         
         if(this.$suggestions) this.$suggestions.hide();
         // Fire add event
-        triggerMany(this.$input, 'tagger:change tagger:add', [self.getValues()]);
+        this.triggerChange(this.$input, 'tagger:change tagger:add', self.getValues());
     };
     
     // Update tag value
@@ -278,7 +272,7 @@
         if(!this.options.duplicates && this.duplicate(value)) return this.remove(tag);
         tag.find('.tagger-content').text(value);
         // Trigger change
-        triggerMany(this.$input, 'tagger:change tagger:edit', [this.getValues()]);
+        this.triggerChange(this.$input, 'tagger:change tagger:edit', this.getValues());
     };
 
     // Remove last tag
@@ -354,10 +348,18 @@
         if(!this.suggestions) return true;
         return ~this.suggestions.indexOf(value);
     }
+
+    Tagger.prototype.triggerChange = function(elem, events, values){
+        // Trigger multiple events
+        events.split(' ').forEach(function(event){
+            elem.trigger(event, [values]);
+        });
+    }
     
     Tagger.prototype.styles = {
         '.tagger-label': {
-            'margin-right': '5px'
+            'margin-right': '5px',
+            display: 'inline-block'
         },
         '.tagger-remove-tag': {
             'color': '#FFF',
