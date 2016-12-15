@@ -29,6 +29,8 @@
 
         tagger.tagger('add', ['test']);
 
+        console.log(tagger.tagger('getValues'));
+
         // Listen for changes
         tagger.on('tagger:change', function(e, vals){
             console.log(e, vals);

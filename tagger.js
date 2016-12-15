@@ -34,16 +34,6 @@
     function Tagger($input, options) {
         var self = this;
         
-        // Setup custom styles
-        if(typeof options.styles === 'object' && Array.isArray(options.styles)){
-            for(var styles in options.styles){
-                if(options.styles.hasOwnProperty(styles)){
-                    this.styles[styles] = options.styles[styles];
-                }
-            }
-            delete options.styles;
-        }
-        
         this.options = $.extend({}, DEFAULT_OPTIONS, options);
         this.$ = this.$input = $input;
         this.$container = $input.parent();
@@ -52,6 +42,16 @@
         var name = $input.attr('name');
         var placeholder = $input.attr('placeholder') || this.options.placeholder;
         var sizr = new Sizr($input);
+
+        // Setup custom styles
+        if(typeof this.options.styles === 'object' && Array.isArray(this.options.styles)){
+            for(var styles in this.options.styles){
+                if(this.options.styles.hasOwnProperty(styles)){
+                    this.styles[styles] = this.options.styles[styles];
+                }
+            }
+            delete this.options.styles;
+        }
 
         // Check for input
         if($input.prop('tagName') !== 'INPUT'){
@@ -426,7 +426,7 @@
             $input.data('Tagger', tagger);
         }else{
             args.splice(0, 1);
-            tagger[arguments[0]].call(tagger, args);
+            return tagger[arguments[0]].call(tagger, args);
         }
         return $input;
     }});
