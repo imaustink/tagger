@@ -21,13 +21,15 @@
         return 'label label-' + (~CNAMES.indexOf(cname) ? cname : 'default');
     }
 
-    // TODO: this is ugly and should be refactored
-    // Set width based on text width in elem
-    function resize(elem) {
-        this.fakeEl = this.fakeEl || $('<span>').hide().appendTo(document.body);
-        this.fakeEl.text(elem.val() || elem.text()).css('font', elem.css('font'));
-        elem.css('width', (this.fakeEl.width() + 15) + 'px');
+    function Sizr($elem){
+        this.$elem = $elem;
+        this.$dummy = $('<span>').appendTo(document.body);
     }
+
+    Sizr.prototype.measure = function(){
+        this.$dummy.text(this.$elem.text() || this.$elem.val()).css('font', this.$elem.css('font'));
+        return this.$dummy.width() + 15;
+    };
 
     function Tagger($input, options) {
         var self = this;
@@ -49,6 +51,7 @@
         var starting = $input.val();
         var name = $input.attr('name');
         var placeholder = $input.attr('placeholder') || this.options.placeholder;
+        var sizr = new Sizr($input);
 
         // Check for input
         if($input.prop('tagName') !== 'INPUT'){
@@ -84,9 +87,8 @@
             this.$container.after(this.$suggestions);
         }
 
-        // TODO: set static inital size
         // Init text area size
-        resize($input);
+        $input.css('width', '15px');
 
         // Set input classes
         $input.css(this.styles['.tagger-input']);
@@ -95,14 +97,14 @@
         $input.attr('type', 'text');
         
         // Set container styles
-        this.$container.css({'height': 'auto', 'line-height': '27px'});
+        this.$container.css({'height': 'auto', 'line-height': '20px'});
 
         // Update on each key press
         $input.keyup(function inputKeyup(e) {
 
-            // TODO measure in virueal DOM and then resize
+            var input_width = Math.min(sizr.measure(), self.$container.innerWidth());
             // Resize out input as the text has changed
-            resize(self.$input);
+            self.$input.css('width', input_width + 'px');
 
             // Get the new value
             var value = self.$input.val();
@@ -393,8 +395,7 @@
             'box-shadow': 'none'
         },
         '.tagger-handle': {
-            'cursor': 'move',
-            'cursor': '-webkit-grabbing',
+            'cursor': 'move -webkit-grabbing',
             'margin-right': '3px'
         },
         '.tagger-suggestions': {
