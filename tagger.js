@@ -2,6 +2,19 @@
     // All of our color classes
     var CNAMES = ['default', 'primary', 'success', 'info', 'warning', 'danger'];
 
+    var DEFAULT_OPTIONS  = {
+        terminators: [
+            13, // return
+            188 // comma
+        ],
+        color: 'info',
+        duplicates: false,
+        handleClass: 'glyphicon glyphicon-menu-hamburger',
+        removeClass: 'glyphicon glyphicon-remove',
+        showAllSuggestions: false,
+        suggestionsOnly: false
+    };
+
     // TODO: add arbitrary color option
     // Get classes for a label
     function classes(cname) {
@@ -16,27 +29,8 @@
         elem.css('width', (this.fakeEl.width() + 15) + 'px');
     }
 
-    // TODO: change this to extend a static object instead
-    // Set defaults on options object
-    function setDefaultOptions(options) {
-        options.terminators = options.terminators || [
-            13 // return
-        ];
-        options.color = options.color || 'info';
-        options.duplicates = options.duplicates || false;
-        // TODO: consider renaming to classes
-        options.handleClass = (options.handleClass ? options.handleClass + ' tagger-handle' : 'glyphicon glyphicon-menu-hamburger tagger-handle');
-        options.removeClass = options.removeClass || 'glyphicon glyphicon-remove';
-        options.showAllSuggestions = options.showAllSuggestions || false;
-        options.suggestionsOnly = options.suggestionsOnly || false;
-    }
-
     function Tagger($input, options) {
         var self = this;
-
-        // Get defaults
-        options = options || {};
-        setDefaultOptions(options);
         
         // Setup custom styles
         if(typeof options.styles === 'object' && Array.isArray(options.styles)){
@@ -45,7 +39,16 @@
                     this.styles[styles] = options.styles[styles];
                 }
             }
+            delete options.styles;
         }
+        
+        this.options = $.extend({}, DEFAULT_OPTIONS, options);
+        this.$ = this.$input = $input;
+        this.$container = $input.parent();
+
+        var starting = $input.val();
+        var name = $input.attr('name');
+        var placeholder = $input.attr('placeholder') || this.options.placeholder;
 
         // Check for input
         if($input.prop('tagName') !== 'INPUT'){
@@ -54,20 +57,21 @@
             $input.replaceWith(input);
             $input = input;
         }
-        
-        this.options = options
-        this.$ = this.$input = $input;
-        this.$container = $input.parent();
 
-        var starting = $input.val();
+        if(this.options.handleClass) this.options.handleClass += ' tagger-handle';
+
+        if(name){
+            $input.removeAttr('name');
+            this.$dummy = $('<input>', {type: 'hidden', name: name, value: starting});
+            this.$container.append(this.$dummy);
+        }
+
         if(starting){
             $input.removeAttr('value');
             $input.val('');
             self.add(starting.split(','));
         }
-        
-        var placeholder = $input.attr('placeholder') || options.placeholder;
-        
+
         if(placeholder){
             $input.removeAttr('placeholder');
             placeholder = $('<span>', {class: 'tagger-placeholder'}).css(this.styles['.tagger-placeholder']).text(placeholder);
@@ -75,11 +79,12 @@
             if(!self.getValues().length) placeholder.show();
         }
 
-        if(options.autocomplete){
+        if(this.options.autocomplete){
             this.$suggestions = $('<ul>', {class: 'tagger-suggestions'}).css(this.styles['.tagger-suggestions']);
             this.$container.after(this.$suggestions);
         }
 
+        // TODO: set static inital size
         // Init text area size
         resize($input);
 
@@ -103,8 +108,8 @@
             var value = self.$input.val();
 
             // Case transformation
-            if(typeof options.transform === 'function'){
-                value = options.transform(value);
+            if(typeof self.options.transform === 'function'){
+                value = self.options.transform(value);
                 self.$input.val(value);
             }
 
@@ -114,7 +119,7 @@
             self.showSuggestions(value);
 
             // Check for terminators
-            if(~options.terminators.indexOf(e.which)){
+            if(~self.options.terminators.indexOf(e.which)){
                 // If they don't have a value yet stop here
                 if(!value) return;
                 // Reset input box
@@ -174,8 +179,8 @@
         });
         
         // Setup sortable plugin
-        if(options.sortable){
-            options.sortable.create(this.$container[0], {
+        if(this.options.sortable){
+            this.options.sortable.create(this.$container[0], {
                 // Class of sort handle in tag elem
                 handle: '.tagger-handle',
                 onStart: function sortStart(){
@@ -213,10 +218,9 @@
         return output;
     };
 
+    // Returns tags
     Tagger.prototype.getTags = function getTags(){
-        return this.$container.children().map(function(tag){
-            return $(tag);
-        });
+        return this.$container.children('span.label');
     };
 
     // Add tag
@@ -225,7 +229,7 @@
         // Handle array of tags
         if(Array.isArray(value)){
             return value.forEach(function(val){
-                self.add(val)
+                self.add(val);
             });
         }
         // Prevent duplicates
@@ -343,20 +347,22 @@
             self.suggestions = self.autocomplete(value, this.options.autocomplete);
             self.printSuggestions(self.suggestions);
         }
-    }
+    };
     
     Tagger.prototype.inSuggestions = function inSuggestions(value){
         // Ignore if we don't have suggestions yet
         if(!this.suggestions) return true;
         return ~this.suggestions.indexOf(value);
-    }
+    };
 
     Tagger.prototype.triggerChange = function(elem, events, values){
         // Trigger multiple events
         events.split(' ').forEach(function(event){
             elem.trigger(event, [values]);
         });
-    }
+
+        if(this.$dummy) this.$dummy.val(values.join());
+    };
     
     Tagger.prototype.styles = {
         '.tagger-label': {

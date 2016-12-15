@@ -85,7 +85,7 @@ Key codes to terminate tag on.
 
 | Type        | Default    | Options     |
 |-------------|------------|-------------|
-| ```Array``` of ```String```(s) | ```[13]``` | ```[...]``` |
+| ```Array``` of ```Number```(s) | ```[13, 188]``` | ```[...]``` |
 
 ```javascript
 $('#Tagger').tagger({
