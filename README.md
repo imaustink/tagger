@@ -4,7 +4,7 @@
 TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/AustinJKurpuis/gts3cxf5/7/)
 ###### Note: this library is designed to be used with [Bootstrap](http://www.getbootstrap.com/) and [jQuery](https://jquery.com/). Bootstrap is optional but jQuery is required.
 
-After fighting with many of the dozens of tags inputs out there and attempting to modify a few of them, I have come to accept they are all garbage. This projects goal is to make a better tags input. Including features like drag and drop orgonization and editing of tags and proper events and methods for interacting with the input once it's initiated.
+After fighting with many of the dozens of tags inputs out there and attempting to modify a few of them, I have come to accept they are all garbage. This projects goal is to make a better tags input. Including features like drag and drop organization and editing of tags and proper events and methods for interacting with the input once it's initiated.
 
 ## Example
 ```html
@@ -68,11 +68,11 @@ $('#Tagger').tagger({
 ```
 
 ### sortable
-Make tags sortable by drag and drop.
+Make tags sortable by drag and drop by proviging an a [Sortable](https://github.com/RubaXa/Sortable) constructor.
 
 | Type          | Default     | Options                 |
 |---------------|-------------|-------------------------|
-| ```Boolean``` | ```false``` | ```true```, ```false``` |
+| ```Function``` | ```undefined``` | ```Sortable``` |
 
 ```javascript
 $('#Tagger').tagger({
@@ -85,12 +85,12 @@ Key codes to terminate tag on.
 
 | Type        | Default    | Options     |
 |-------------|------------|-------------|
-| ```Array``` | ```[13]``` | ```[...]``` |
+| ```Array``` of ```Number```(s) | ```[13, 188]``` | ```[...]``` |
 
 ```javascript
 $('#Tagger').tagger({
     terminators: [
-        13, // Rteurn key
+        13, // Return key
         32 // Space
     ]
 });
@@ -132,7 +132,7 @@ $('#Tagger').tagger({
 
 ### handleClass
 Overwrite handle css classes.
-###### Note: the required calss of ```.tagger-handle``` will be automatically added.
+###### Note: the required class of ```.tagger-handle``` will be automatically added.
 
 | Type         | Default         | Options     |
 |--------------|-----------------|-------------|
@@ -158,7 +158,7 @@ $('#Tagger').tagger({
 ```
 
 ## Methods
-### .tagger().add(value)
+### .tagger('add', value)
 Adds a tag or many tags to an instance of .tagger().
 
 | Arguments | Type                  | Required |
@@ -167,13 +167,28 @@ Adds a tag or many tags to an instance of .tagger().
 
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Add single tags
-$tagger.add('tag');
+$input.tagger('add', 'tag');
 // Also accepts array of strings for multiple tags
-$tagger.add(['firstTag', 'secondTag']);
+$input.tagger('add', ['firstTag', 'secondTag']);
 ```
-### .tagger().remove(tag)
+### .tagger('update', tag, value)
+Updates an existing tag in an instance of .tagger().
+
+| Arguments | Type                  | Required |
+|-----------|-----------------------|----------|
+| value     | ```String```, ```Array``` | yes      |
+
+```javascript
+// Setup
+var $input = $('#Tagger').tagger();
+// Select last tag
+var tag = $('#Tagger').parent().find('.label').last();
+// Update single tags
+$input.tagger('update', tag, 'myTag');
+```
+### .tagger('remove', tag)
 Removes selected tag(s) from an instance of .tagger().
 
 | Arguments | Type   | Required |
@@ -182,30 +197,38 @@ Removes selected tag(s) from an instance of .tagger().
 
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Select all tags
 var tags = $('#Tagger').parent().find('.label');
 // Remove selected tags
-$tagger.remove(tags);
+$input.tagger('remove', tags);
 ```
-### .tagger().getValues()
+### .tagger('getValues')
 Returns an array of strings representing the tags in an instance of .tagger().
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Remove selected tags
-$tagger.getValues();
+$input.tagger('getValues');
 ```
-### .tagger().removeLast()
+### .tagger('getTags')
+Returns an array the tag elements in an instance of .tagger().
+```javascript
+// Setup
+var $input = $('#Tagger').tagger();
+// Remove selected tags
+$input.tagger('getTags');
+```
+### .tagger('removeLast')
 Removes last tag in list from an instance of .tagger().
 
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Remove selected tags
-$tagger.removeLast();
+$input.tagger('removeLast');
 ```
-### .tagger().removeIndex(index)
+### .tagger('removeIndex', index)
 Removes a specific tag by it's index in the list.
 ###### Note: starting index is 0
 
@@ -215,12 +238,12 @@ Removes a specific tag by it's index in the list.
 
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Remove the second tag
-$tagger.removeIndex(1);
+$input.tagger('removeIndex', 1);
 ```
 
-### .tagger().removeValue(value)
+### .tagger('removeValue', value)
 Removes specific tag(s) by their value.
 ###### Note: all matching tags will be removed.
 
@@ -230,12 +253,12 @@ Removes specific tag(s) by their value.
 
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Remove a tag with the value of 'myTag'
-$tagger.removeValue('myTag');
+$input.tagger('removeValue', 'myTag');
 ```
-### .tagger().exists(value)
-Returns true if the tag already exits.
+### .tagger('duplicate', value)
+Returns true if the tag is a duplicate.
 ###### Note: always returns false if duplicates are enabled.
 
 | Arguments | Type   | Required |
@@ -244,9 +267,9 @@ Returns true if the tag already exits.
 
 ```javascript
 // Setup
-var $tagger = $('#Tagger').tagger();
+var $input = $('#Tagger').tagger();
 // Remove a tag with the value of 'myTag'
-$tagger.exists('myTag');
+$input.tagger('duplicate', 'myTag');
 ```
 ## Custom styles
 Using the style option you can pass an object containing custom styles.
@@ -265,6 +288,6 @@ $('#Tagger').tagger({
 | ```.tagger-label```      | ```<span>```   | Tag container                         |
 | ```.tagger-remove-tag``` | ```<a>```      | Remove tag button                     |
 | ```.tagger-input```      | ```<input>```  | Tagger input field                    |
-| ```.tagger-focused```    | Defined by you | Tags input container when focused |
-| ```.tagger-blurred```    | Defined by you | Tags input container when blurred |
+| ```.tagger-focused```    | Defined by you | Tags input container when focused     |
+| ```.tagger-blurred```    | Defined by you | Tags input container when blurred     |
 | ```.tagger-handle```     | ```<span>```   | Tag draggable handle                  |

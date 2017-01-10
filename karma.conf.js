@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Tue May 31 2016 13:45:14 GMT-0700 (PDT)
+// Generated on Tue Jan 10 2017 08:59:55 GMT-0800 (PST)
 
 module.exports = function(config) {
   config.set({
@@ -7,16 +7,17 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
+
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
-      
+    frameworks: ['mocha', 'chai'],
+
+
     // list of files / patterns to load in the browser
     files: [
-      'node_modules/chai/chai.js',
       'libs/*.js',
-      'tagger.js', 
-      'tests/*'
+      'tagger.js',
+      'test/*'
     ],
 
 
@@ -28,7 +29,6 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-        '**/*.html': ['html2js']
     },
 
 
@@ -57,7 +57,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox', 'Safari'],
+    browsers: ['PhantomJS', 'Chrome'],
 
 
     // Continuous Integration mode
@@ -68,4 +68,4 @@ module.exports = function(config) {
     // how many browser should be started simultaneous
     concurrency: Infinity
   })
-};
+}
