@@ -21,14 +21,15 @@
         return 'label label-' + (~CNAMES.indexOf(cname) ? cname : 'default');
     }
 
-    function Sizr($elem){
+    function Sizr($elem, pad){
         this.$elem = $elem;
+        this.pad = pad || 0;
         this.$dummy = $('<span>').appendTo(document.body);
     }
 
     Sizr.prototype.measure = function(){
         this.$dummy.text(this.$elem.text() || this.$elem.val()).css('font', this.$elem.css('font'));
-        return this.$dummy.width() + 15;
+        return this.$dummy.width() + this.pad;
     };
 
     function Tagger($input, options) {
@@ -41,10 +42,10 @@
         var starting = $input.val();
         var name = $input.attr('name');
         var placeholder = $input.attr('placeholder') || this.options.placeholder;
-        var sizr = new Sizr($input);
+        var sizr = new Sizr($input, 15);
 
         // Setup custom styles
-        if(typeof this.options.styles === 'object' && Array.isArray(this.options.styles)){
+        if(typeof this.options.styles === 'object' && !Array.isArray(this.options.styles)){
             for(var styles in this.options.styles){
                 if(this.options.styles.hasOwnProperty(styles)){
                     this.styles[styles] = this.options.styles[styles];
@@ -63,11 +64,10 @@
 
         if(this.options.handleClass) this.options.handleClass += ' tagger-handle';
 
-        if(name){
-            $input.removeAttr('name');
-            this.$dummy = $('<input>', {type: 'hidden', name: name, value: starting});
-            this.$container.append(this.$dummy);
-        }
+        if(name) $input.removeAttr('name');
+
+        this.$dummy = $('<input>', {type: 'hidden', name: name, value: starting});
+        this.$container.append(this.$dummy);
 
         if(starting){
             $input.removeAttr('value');
@@ -290,7 +290,7 @@
 
     // Remove tag by index
     Tagger.prototype.removeIndex = function removeIndex(i){
-        this.remove(this.$container.find('.label')[i]);
+        this.remove(this.$container.find('.label').eq(i));
     };
     
     // TODO rename to 'values' and make it a getter/setter
@@ -363,7 +363,7 @@
             elem.trigger(event, [values]);
         });
 
-        if(this.$dummy) this.$dummy.val(values.join());
+        if(this.$dummy) this.$dummy.val(values.join()).change();
     };
     
     Tagger.prototype.styles = {
@@ -426,7 +426,7 @@
             $input.data('Tagger', tagger);
         }else{
             args.splice(0, 1);
-            return tagger[arguments[0]].call(tagger, args);
+            return tagger[arguments[0]].apply(tagger, args);
         }
         return $input;
     }});

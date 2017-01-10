@@ -17,6 +17,7 @@
                 to prevent an unstyled box from showing before it's loaded.
                 Tagger will unhide it for you -->
                 <input style="display:none;" id="Tagger" value="starting,values" name="test">
+                <input type="hidden">
             </div>
         </div>
     </form>
@@ -27,7 +28,7 @@
         // Init tagger
         tagger = $body.find('#Tagger').tagger({sortable: Sortable});
 
-        tagger.tagger('add', ['test']);
+        //tagger.tagger('add', ['test']);
 
         console.log(tagger.tagger('getValues'));
 
