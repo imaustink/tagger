@@ -1,7 +1,7 @@
 # Tagger
 [![Build Status](https://travis-ci.org/imaustink/tagger.svg?branch=karma)](https://travis-ci.org/imaustink/tagger)
 
-TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/AustinJKurpuis/gts3cxf5/7/)
+TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/72mq9w5e/)
 ###### Note: this library is designed to be used with [Bootstrap](http://www.getbootstrap.com/) and [jQuery](https://jquery.com/). Bootstrap is optional but jQuery is required.
 
 After fighting with many of the dozens of tags inputs out there and attempting to modify a few of them, I have come to accept they are all garbage. This projects goal is to make a better tags input. Including features like drag and drop organization and editing of tags and proper events and methods for interacting with the input once it's initiated.
