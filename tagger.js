@@ -395,7 +395,7 @@
             'box-shadow': 'none'
         },
         '.tagger-handle': {
-            'cursor': 'move -webkit-grabbing',
+            'cursor': 'move',
             'margin-right': '3px'
         },
         '.tagger-suggestions': {
