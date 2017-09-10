@@ -1,4 +1,6 @@
 # Tagger
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/imaustink/tagger.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/imaustink/tagger.svg?branch=karma)](https://travis-ci.org/imaustink/tagger)
 
 TLDR; My own tags input with blackjack and hookers. [Demo!](https://jsfiddle.net/72mq9w5e/)
